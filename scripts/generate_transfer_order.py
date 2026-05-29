@@ -28,7 +28,7 @@ if sys.stderr.encoding and sys.stderr.encoding.lower() != 'utf-8':
     sys.stderr.reconfigure(encoding='utf-8')
 
 # 调拨业务员列表（下单表中的列名）
-TRANSFER_STAFF = ["程欢欢", "刘善涛", "毛辉", "周运潘", "田顺达", "王琴", "刘正宝"]
+TRANSFER_STAFF = ["程欢欢", "刘善涛", "毛辉", "周运潘", "田顺达", "王琴", "刘正宝", "刘小顶"]
 
 # 固定值
 TRANSFER_OUT_WAREHOUSE = "总仓"

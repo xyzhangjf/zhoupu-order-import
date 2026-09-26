@@ -172,7 +172,7 @@ def generate_excel(staff_orders, arrival_date, start_seq=1):
     ws.title = '调拨订单'
 
     headers = [
-        '*源单据号', '*调出仓', '*调入仓', '*单位', '整单备注',
+        '*源单据号', '*调出仓', '*调入仓', '单据日期', '*单位', '整单备注',
         '商品编号', '商品名称', '商品条码', '期望生产日期',
         '*订单数量', '调拨参考价', '明细备注'
     ]
@@ -192,9 +192,10 @@ def generate_excel(staff_orders, arrival_date, start_seq=1):
             ws.cell(row=row_idx, column=1, value=order_no)            # *源单据号
             ws.cell(row=row_idx, column=2, value=TRANSFER_OUT_WAREHOUSE)  # *调出仓
             ws.cell(row=row_idx, column=3, value=warehouse_in)          # *调入仓
-            ws.cell(row=row_idx, column=4, value=item['单位'])          # *单位
-            ws.cell(row=row_idx, column=8, value=item['条码'])          # 商品条码
-            ws.cell(row=row_idx, column=10, value=item['数量'])         # *订单数量
+            # column=4 单据日期 留空，让系统自动取当天
+            ws.cell(row=row_idx, column=5, value=item['单位'])          # *单位
+            ws.cell(row=row_idx, column=9, value=item['条码'])          # 商品条码
+            ws.cell(row=row_idx, column=11, value=item['数量'])         # *订单数量
             row_idx += 1
 
     return wb, row_idx - 2

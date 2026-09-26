@@ -44,7 +44,7 @@ DEFAULT_CONFIG = {
     # 分销商列表（下单表中的列名）
     "distributors": ["唐成", "黄家伟", "易胜琳", "胡奎奎", "朱青峰", "谢总"],
     # 门店列表（下单表中的列名）
-    "stores": ["吾悦", "东津", "民发", "沃尔玛", "檀溪美联"],
+    "stores": ["吾悦", "东津", "民发", "沃尔玛", "檀溪美联", "美联保康"],
     # 客户名称映射：下单表列名 → 舟谱系统客户名称
     "customer_mapping": {
         "易胜琳": "易胜玲",
@@ -53,7 +53,8 @@ DEFAULT_CONFIG = {
         "吾悦": "永辉吾悦店",
         "东津": "永辉东津店",
         "民发": "永辉民发店",
-        "檀溪美联": "美联檀溪店"
+        "檀溪美联": "美联檀溪店",
+        "美联保康": "美联（保康）店"
     },
     # 客户类型 → 价格列名映射规则
     # 分销商用"分销价格"，永辉门店用"永辉价格"，等
@@ -68,7 +69,8 @@ DEFAULT_CONFIG = {
         "东津": "永辉价格",
         "民发": "永辉价格",
         "沃尔玛": "沃尔玛价格",
-        "檀溪美联": "美联价格"
+        "檀溪美联": "美联价格",
+        "美联保康": "美联价格"
     },
     # 固定字段
     "业务员": "张俊峰",
@@ -281,9 +283,9 @@ def generate_excel(customer_orders, config, arrival_date, start_seq=21):
     ws.title = '自提订单'
 
     headers = [
-        '*源单据号', '客户编号', '客户名称', '*业务员', '部门', '*仓库', '单据日期',
+        '*源单据号', '客户编号', '客户名称', '*业务员', '部门', '项目', '*仓库', '单据日期',
         '整单备注', '制单人', '商品编号', '商品货号', '商品名称', '商品条码',
-        '*单位', '*数量', '*单价(折后价)', '明细备注', '业务属性', '标签'
+        '*单位', '*数量', '*单价(折后价)', '订单金额', '明细备注', '业务属性', '标签', ''
     ]
 
     for col, header in enumerate(headers, 1):
@@ -303,11 +305,13 @@ def generate_excel(customer_orders, config, arrival_date, start_seq=21):
             ws.cell(row=row_idx, column=3, value=customer_name)   # 客户名称
             ws.cell(row=row_idx, column=4, value=config['业务员'])  # *业务员
             ws.cell(row=row_idx, column=5, value=config['部门'])    # 部门
-            ws.cell(row=row_idx, column=6, value=config['仓库'])    # *仓库
-            ws.cell(row=row_idx, column=13, value=item['条码'])    # 商品条码
-            ws.cell(row=row_idx, column=14, value=item['单位'])    # *单位
-            ws.cell(row=row_idx, column=15, value=item['数量'])    # *数量
-            ws.cell(row=row_idx, column=16, value=item['单价'])    # *单价(折后价)
+            ws.cell(row=row_idx, column=6, value='')               # 项目（留空）
+            ws.cell(row=row_idx, column=7, value=config['仓库'])    # *仓库
+            ws.cell(row=row_idx, column=14, value=item['条码'])    # 商品条码
+            ws.cell(row=row_idx, column=15, value=item['单位'])    # *单位
+            ws.cell(row=row_idx, column=16, value=item['数量'])    # *数量
+            ws.cell(row=row_idx, column=17, value=item['单价'])    # *单价(折后价)
+            ws.cell(row=row_idx, column=18, value='')               # 订单金额（留空）
             row_idx += 1
 
     return wb, row_idx - 2
